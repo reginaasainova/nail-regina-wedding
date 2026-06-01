@@ -479,35 +479,34 @@ target="_blank">
 <div class="form-group">
 <input
 type="text"
+id="guestName"
 placeholder="Имя и фамилия"
 required>
 </div>
 
 <div class="form-group">
+<select id="guestAnswer" required>
 
-<select required>
 <option value="">
 Выберите вариант
 </option>
 
-<option>
+<option value="Буду присутствовать">
 Буду присутствовать
 </option>
 
-<option>
+<option value="Не смогу прийти">
 Не смогу прийти
 </option>
 
 </select>
-
 </div>
 
 <div class="form-group">
-
 <textarea
+id="guestComment"
 placeholder="Комментарий или пожелание">
 </textarea>
-
 </div>
 
 <button
@@ -518,8 +517,12 @@ class="submit-btn">
 
 </button>
 
-</form>
+<div id="successMessage" style="display:none;margin-top:20px;color:#6d7f6f;font-weight:600;">
+Спасибо! Ваш ответ успешно отправлен ❤️
+</div>
 
+</form>
+  
 </div>
 
 </div>
@@ -602,6 +605,36 @@ alert(
 });
 
 </script>
+<script>
+document.getElementById("rsvpForm").addEventListener("submit", async function(e){
 
+e.preventDefault();
+
+const data = {
+name: document.getElementById("guestName").value,
+answer: document.getElementById("guestAnswer").value,
+comment: document.getElementById("guestComment").value
+};
+
+try {
+
+await fetch(
+"https://script.google.com/macros/s/AKfycbxdA61TwXX9x2AEtaXxmKtiHtDSAsH0KqbniRhDURXZGp7jcfsDZX8wfkJwGcAUWVz1QA/exec",
+{
+method: "POST",
+body: JSON.stringify(data)
+}
+);
+
+document.getElementById("successMessage").style.display = "block";
+
+document.getElementById("rsvpForm").reset();
+
+} catch(error) {
+alert("Ошибка отправки. Попробуйте позже.");
+}
+
+});
+</script>
 </body>
 </html>
